@@ -38,7 +38,7 @@ jobs:
           prefix: tests
       - store_test_results:
           path: test-results.xml
-       - run:
+      - run:
           name: Install and configure dependencies
           command: |
             npm install gh-pages --save-dev
