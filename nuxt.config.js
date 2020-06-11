@@ -1,4 +1,13 @@
+const routerBase =
+  process.env.DEPLOY_ENV === 'GH_PAGES'
+    ? {
+        router: {
+          base: '/my-nuxt-app/'
+        }
+      }
+    : {}
 export default {
+  router: routerBase,
   mode: 'universal',
   /*
    ** Headers of the page

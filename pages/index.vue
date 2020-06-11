@@ -1,35 +1,161 @@
 <template>
   <div class="container">
     <div>
-      <logo />
       <h1 class="title">
-        garbage-image-classification
+        Welcome
       </h1>
       <h2 class="subtitle">
-        My impeccable Nuxt.js project
+        Upload your image here
       </h2>
-      <div class="links">
-        <a href="https://nuxtjs.org/" target="_blank" class="button--green">
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-        >
-          GitHub
-        </a>
+      <!-- <SnackbarMessage /> -->
+      <div>
+        <v-row>
+          <v-col cols="12">
+            <v-card>
+              <v-form>
+                <v-card-text>
+                  <div class="file-input">
+                    <div class="image-file image-file--rounded">
+                      <input
+                        id="file"
+                        type="file"
+                        :accept="SheetJSFT"
+                        :rules="[rules.size]"
+                        class="custom-file-input"
+                        @change="onFileChangeGarbage"
+                      />
+                    </div>
+                  </div>
+                  <img
+                    v-if="imageGarbage"
+                    :src="imageGarbage"
+                    alt="your image"
+                  />
+                  <template v-if="imageGarbage">
+                    <a class="file-remove" href="#" @click="removeImageGarbage"
+                      >&#215;</a
+                    >
+                  </template>
+                  <div class="ipl-input-hint">
+                    <p>
+                      Maks. ukuran file 1 Mb, hanya menerima file .jpeg, .jpg
+                      dan .png
+                    </p>
+                  </div>
+                  <br />
+                  <div>
+                    <h3 class="subtitle-1">
+                      This garbage is classified as {{ garbageClassification }}
+                    </h3>
+                  </div>
+                </v-card-text>
+                <v-card-actions></v-card-actions>
+              </v-form>
+            </v-card>
+          </v-col>
+        </v-row>
       </div>
     </div>
   </div>
 </template>
 
-<script>
-import Logo from '~/components/Logo.vue'
+//
+<style scoped>
+.file-input {
+  width: 100%;
+  margin-bottom: 15px;
+  .image-file {
+    position: relative;
+    padding: 12px 12px;
+    border: 1px solid #9e9e9e;
 
+    &--rounded {
+      -webkit-border-radius: 4px;
+      border-radius: 4px;
+
+      label {
+        position: absolute;
+        left: 10px;
+        top: -13px;
+        padding: 0 2px;
+        font-size: 11px;
+        background: #fff;
+        color: rgba(0, 0, 0, 0.6);
+      }
+    }
+    .file-remove {
+      position: absolute;
+      right: 16px;
+
+      text-decoration: none;
+      font-size: 24px;
+      color: rgba(0, 0, 0, 0.6);
+    }
+  }
+  &-hint {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 11px;
+    line-height: 1.2;
+    padding: 0 12px;
+    margin-top: 5px;
+    margin-bottom: 8px;
+  }
+}
+</style>
+
+<script>
+import { mapActions } from 'vuex'
+// import SnackbarMessage from '@/components/Snackbar'
+const _SheetJSFT = ['jpg', 'jpeg', 'png']
+  .map(function(x) {
+    return '.' + x
+  })
+  .join(',')
 export default {
-  components: {
-    Logo
+  // components: {
+  //   SnackbarMessage
+  // },
+  data() {
+    return {
+      SheetJSFT: _SheetJSFT,
+      imageGarbage: '',
+      rules: {
+        size: (value) => {
+          return (
+            !value || value.size <= 1000000 || 'Maximum image size is 1 MB.'
+          )
+        }
+      },
+      garbageClassification: '.......'
+    }
+  },
+  methods: {
+    ...mapActions({
+      notifFileTooBig: 'notifFileTooBig'
+    }),
+    onFileChangeGarbage(e) {
+      const files = e.target.files || e.dataTransfer.files
+      if (files[0].size > 1000000) {
+        this.notifFileTooBig()
+        document.getElementById('file').value = ''
+        return
+      }
+      if (!files.length) return
+      this.createImageGarbage(files[0])
+    },
+    createImageGarbage(file) {
+      const reader = new FileReader()
+
+      reader.onload = (e) => {
+        this.imageGarbage = e.target.result
+      }
+      reader.readAsDataURL(file)
+      this.garbageClassification = 'trash'
+    },
+    removeImageGarbage(e) {
+      this.imageGarbage = ''
+      this.garbageClassification = '.......'
+    }
   }
 }
 </script>
