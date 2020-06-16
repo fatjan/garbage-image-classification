@@ -38,7 +38,7 @@
                   </template>
                   <div class="ipl-input-hint">
                     <p>
-                      Maks. ukuran file 1 Mb, hanya menerima file .jpeg, .jpg
+                      Maksimal ukuran file 1 Mb, hanya menerima file .jpeg, .jpg
                       dan .png
                     </p>
                   </div>
