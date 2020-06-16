@@ -23,11 +23,11 @@ jobs:
           command: npm run test
       - run:
           name: build-project
-          command: npm run build
+          command: npm run generate:gh-pages
       - run:
           name: Install and configure dependencies
           command: |
-            npm install 
+            npm install gh-pages --save-dev
             git config user.email "fatma@alterra.com"
             git config user.name "fatjan"
       - add_ssh_keys:
