@@ -14,10 +14,17 @@
     "generate:gh-pages": "DEPLOY_ENV=GH_PAGES nuxt generate --fail-on-page-error"
   },
   "dependencies": {
-    "nuxt": "^2.0.0",
     "@nuxtjs/axios": "^5.3.6",
+    "@nuxtjs/dotenv": "^1.4.0",
     "@nuxtjs/pwa": "^3.0.0-0",
-    "@nuxtjs/dotenv": "^1.4.0"
+    "@tensorflow/tfjs": "^2.0.1",
+    "@tensorflow/tfjs-node": "^2.0.1",
+    "aws-sdk": "^2.700.0",
+    "child_process": "^1.0.2",
+    "fs": "0.0.1-security",
+    "net": "^1.0.2",
+    "nuxt": "^2.0.0",
+    "tls": "0.0.1"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^2.0.0",
